@@ -1,37 +1,22 @@
-require "pry"
-
+require 'pry'
 class Song
 attr_accessor :name, :artist
 
-
-
-def initialize (name)
-  @name = name
-end
-def artist=(artist_name)
-  @artist = artist_name
-end
-
-
-def artist_name=(name)
-  if self.artist == nil
-    self.artist = Artist.new(name)
-  else
-    self.artist.name = name
-end
-end
-
-
-
-def self.new_by_filename(file_name)
-    song_name = file_name.split("-")[1].strip
-    song_artist = file_name.split("-")[0].strip
-    song = self.new(song_name)
-    song.artist = Artist.new(song_artist)
-    song
+  def initialize(name)
+    @name=name
   end
 
-
-
+  def self.new_by_filename(filename)
+#    string = String.new('')
+    new_title = filename.split(" - ")
+    song = Song.new(new_title[1])
+    #song.artist=(new_title[0])
+    artist = Artist.find_or_create_by_name(new_title[0])
+    #a= Artist.new('Prince')
+    #a.nam
+    artist.add_song(song)
+    song.artist = artist
+    return song
+  end
 
 end
